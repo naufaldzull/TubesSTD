@@ -2,6 +2,8 @@
 #include "graph.h"
 using namespace std;
 
+// Fungsi ini untuk membuat sebuah vertex baru dengan ID yang diberikan (newVertexID) dan
+// menyimpannya dalam alamat yang ditunjuk oleh v
 void createVertex(char newVertexID, adrVertex &v) {
     v = new vertex;
     idVertex(v) = newVertexID;
@@ -9,10 +11,13 @@ void createVertex(char newVertexID, adrVertex &v) {
     firstEdge(v) = NULL;
 }
 
+// Fungsi ini untuk menginisialisasi graph G memulai dengan keadaan kosong, tanpa vertex atau edge
 void initGraph(graph &G) {
     firstVertex(G) = NULL;
 }
 
+// Fungsi ini untuk menambahkan sebuah vertex baru ke dalam graph G dengan ID yang diberikan
+// Vertex ini akan menjadi titik awal yang dapat digunakan untuk menambah edge penghubung
 void addVertex(graph &G, char newVertexID) {
     adrVertex v, temp;
 
@@ -29,6 +34,8 @@ void addVertex(graph &G, char newVertexID) {
 
 }
 
+// Fungsi ini untuk membangun graph G dengan menambahkan vertex-vertex dan edge-edges yang diperlukan,
+// sehingga membentuk hubungan antar gedung sesuai dengan sistem navigasi yang dibutuhkan
 void buildGraph(graph &G) {
     initGraph(G);
 
