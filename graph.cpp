@@ -25,6 +25,20 @@ void initGraph(graph &G) {
     firstVertex(G) = NULL;
 }
 
+
+adrGedung findVertex(graph G, string vertexID) {
+    adrGedung currentVertex = firstVertex(G);
+
+    while (currentVertex != NULL) {
+        if (idVertex(currentVertex) == vertexID) {
+            return currentVertex;
+        }
+        currentVertex = nextVertex(currentVertex);
+    }
+
+    return NULL;
+}
+
 // Fungsi ini untuk menambahkan sebuah vertex baru ke dalam graph G dengan ID yang diberikan
 // Vertex ini akan menjadi titik awal yang dapat digunakan untuk menambah edge penghubung
 void addVertex(graph &G, string newVertexID) {
@@ -47,7 +61,7 @@ void addEdge(graph &G, string fromVertexID, string toVertexID, int weight) {
     adrGedung fromVertex = findVertex(G, fromVertexID);
     adrGedung toVertex = findVertex(G, toVertexID);
 
-    if (fromVertex == nullptr || toVertex == nullptr) {
+    if (fromVertex == NULL || toVertex == NULL) {
         cout << "Salah satu atau kedua vertex tidak ditemukan." << endl;
         return;
     }
@@ -115,4 +129,79 @@ void cetakNavigasi(graph G) {
     }
 }
 
+void cariTetangga(graph G, string vertexID) {
+    adrGedung currentVertex = findVertex(G, vertexID);
 
+    if (currentVertex == NULL) {
+        cout << "Vertex tidak ditemukan." << endl;
+        return;
+    }
+
+    cout << "Tetangga dari vertex " << vertexID << ": ";
+    adrJalan currentEdge = firstEdge(currentVertex);
+    if (currentEdge == NULL) {
+        cout << "Tidak ada tetangga." << endl;
+    } else {
+        while (currentEdge != NULL) {
+            cout << destVertexID(currentEdge);
+            if (nextEdge(currentEdge) != NULL) {
+                cout << ", ";
+            }
+            currentEdge = nextEdge(currentEdge);
+        }
+        cout << endl;
+    }
+}
+
+void hapusLastEdge(adrGedung &vertex) {
+    if (firstEdge(vertex) == NULL) {
+        cout << "Tidak ada edge untuk dihapus." << endl;
+        return;
+    }
+
+    adrJalan prevEdge = NULL;
+    adrJalan currentEdge = firstEdge(vertex);
+
+    while (nextEdge(currentEdge) != NULL) {
+        prevEdge = currentEdge;
+        currentEdge = nextEdge(currentEdge);
+    }
+
+    if (prevEdge == NULL) {
+        firstEdge(vertex) = NULL;
+    } else {
+        nextEdge(prevEdge) = NULL;
+    }
+
+    delete currentEdge;
+    cout << "Edge terakhir telah dihapus." << endl;
+}
+
+void hapusAfterEdge(adrGedung &vertex, string targetDestID) {
+    if (firstEdge(vertex) == NULL) {
+        cout << "Tidak ada edge untuk dihapus." << endl;
+        return;
+    }
+
+    adrJalan prevEdge = NULL;
+    adrJalan currentEdge = firstEdge(vertex);
+
+    while (currentEdge != NULL && destVertexID(currentEdge) != targetDestID) {
+        prevEdge = currentEdge;
+        currentEdge = nextEdge(currentEdge);
+    }
+
+    if (currentEdge == NULL) {
+        cout << "Edge dengan tujuan " << targetDestID << " tidak ditemukan." << endl;
+        return;
+    }
+
+    if (prevEdge == NULL) {
+        firstEdge(vertex) = nextEdge(currentEdge);
+    } else {
+        nextEdge(prevEdge) = nextEdge(currentEdge);
+    }
+
+    delete currentEdge;
+    cout << "Edge dengan tujuan " << targetDestID << " telah dihapus." << endl;
+}

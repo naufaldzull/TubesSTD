@@ -48,7 +48,7 @@ void addVertex(graph &G, string newVertexID); // Menambahkan vertex baru ke grap
 void addEdge(graph &G, string fromVertexID, string toVertexID, int weight); // Menambahkan edge (jalan) ke graph
 void buildGraph(graph &G); // Bangun graph dari input pengguna
 void cetakNavigasi(graph G); // Cetak seluruh graph
-adrGedung findVertex(graph G, string vertexID); // Mencari vertex berdasarkan ID
+adrGedung findVertex(graph G, string vertexID);
 void cariTetangga(graph G, string vertexID); // Menampilkan tetangga vertex tertentu
 void hapus(graph &G); // Menghapus semua vertex dan edge dalam graph
 void ruteTerdekat(graph G, string startVertexID, string endVertexID);
