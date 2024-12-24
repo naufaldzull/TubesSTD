@@ -8,17 +8,17 @@ void initGraph(graph &G) {
 }
 
 // Alokasi memori untuk gedung
-adrGedung alokasiGedung(string newGedung) {
+adrGedung alokasiGedung(string gedung) {
     adrGedung V = new elmGedung;
-    gedung(V) = newGedung;
+    gedung(V) = gedung;
     nextVertex(V) = NULL;
     firstEdge(V) = NULL;
     return V;
 }
 
 // Menambahkan gedung ke graph
-void addGedung(graph &G, string newGedung) {
-    adrGedung V = alokasiGedung(newGedung);
+void addGedung(graph &G, string gedung) {
+    adrGedung V = alokasiGedung(gedung);
     if (firstVertex(G) == NULL) {
         firstVertex(G) = V;
     } else {
