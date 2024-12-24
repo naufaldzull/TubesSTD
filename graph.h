@@ -28,8 +28,8 @@ struct graph {
 };
 
 void initGraph(graph &G);
-adrGedung alokasiGedung(string newGedung);
-void addGedung(graph &G, string newGedung);
+adrGedung alokasiGedung(string gedung);
+void addGedung(graph &G, string gedung);
 adrJalan alokasiJalan(string destGedung, int jarak);
 void addJalan(graph &G, string fromGedung, string toGedung, int jarak);
 void printNavigasi(graph G)
