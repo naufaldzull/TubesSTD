@@ -65,8 +65,7 @@ void addJalan(graph &G, string fromGedung, string toGedung, int jarak) {
     }
     adrJalan E = findJalan(V, toGedung);
     if (E != NULL) {
-        cout << "Jalan " << fromGedung << " -> " << toGedung
-         << " : " << jarak << "m sudah ada.\n";
+        cout << "Jalan " << fromGedung << " -> " << toGedung << " sudah ada.\n";
         return;
     }
     E = alokasiJalan(toGedung, jarak);
