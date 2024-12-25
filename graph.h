@@ -35,7 +35,7 @@ void addJalan(graph &G, string fromGedung, string toGedung, int jarak);
 void printNavigasi(graph G)
 adrGedung findGedung(graph G, string gedung);
 void findTetangga(graph G, string gedung);
-... ruteTerdekat(...);
+//... ruteTerdekat(...);
 void delGedung(graph &G, string gedung);
 void delJalan(graph &G, string fromGedung, string toGedung);
 

@@ -105,7 +105,7 @@ void findTetangga(graph G, string gedung) {
 void delGedung(graph &G, string gedung) {
     // Cari gedung yang akan dihapus
     adrGedung prev = NULL;
-    curr = firstVertex(G);
+    adrGedung curr = firstVertex(G);
     while (curr != NULL && gedung(curr) != gedung) {
         prev = curr;
         curr = nextVertex(curr);
