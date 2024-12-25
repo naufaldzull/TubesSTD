@@ -1,6 +1,5 @@
 #ifndef GRAPH_H_INCLUDED
 #define GRAPH_H_INCLUDED
-
 #include <iostream>
 #include <string>
 #define firstVertex(G) G.firstVertex
@@ -32,10 +31,10 @@ adrGedung alokasiGedung(string gedung);
 void addGedung(graph &G, string gedung);
 adrJalan alokasiJalan(string destGedung, int jarak);
 void addJalan(graph &G, string fromGedung, string toGedung, int jarak);
-void printNavigasi(graph G)
+void lihatRute(graph G);
 adrGedung findGedung(graph G, string gedung);
 void findTetangga(graph G, string gedung);
-//... ruteTerdekat(...);
+... ruteTerdekat(...);
 void delGedung(graph &G, string gedung);
 void delJalan(graph &G, string fromGedung, string toGedung);
 
