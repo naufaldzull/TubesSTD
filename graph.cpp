@@ -61,8 +61,8 @@ void addJalan(graph &G, string fromGedung, string toGedung, int jarak) {
     }
 }
 
-// Mencetak navigasi
-void printNavigasi(graph G) {
+// Melihat rute
+void lihatRute(graph G) {
     adrGedung V = firstVertex(G);
     while (V != NULL) {
         cout << gedung(V) << "\n";
@@ -105,7 +105,7 @@ void findTetangga(graph G, string gedung) {
 void delGedung(graph &G, string gedung) {
     // Cari gedung yang akan dihapus
     adrGedung prev = NULL;
-    adrGedung curr = firstVertex(G);
+    curr = firstVertex(G);
     while (curr != NULL && gedung(curr) != gedung) {
         prev = curr;
         curr = nextVertex(curr);
@@ -166,11 +166,11 @@ void delJalan(graph &G, string fromGedung, string toGedung) {
         if (curr != NULL) {
             // Hapus jalan yang ditemukan
             if (prev == NULL) {
-                firstEdge(V) = nextEdge(curr); // Jika jalan pertama dalam daftar
+                firstEdge(V) = nextEdge(curr); // Jika ejalan pertama dalam daftar
             } else {
                 nextEdge(prev) = nextEdge(curr); // Jika jalan di tengah atau akhir
             }
-            delete curr;
+            delete curr; // Bebaskan memori untuk edge
             cout << "Rute dari " << fromGedung << " ke " << toGedung << " telah dihapus.\n";
         } else {
             cout << "Rute dari " << fromGedung << " ke " << toGedung << " tidak ditemukan.\n";
