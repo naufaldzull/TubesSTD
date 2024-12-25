@@ -1,5 +1,6 @@
 #ifndef GRAPH_H_INCLUDED
 #define GRAPH_H_INCLUDED
+
 #include <iostream>
 #include <string>
 #define firstVertex(G) G.firstVertex
@@ -10,6 +11,7 @@
 #define destGedung(E) E->destGedung
 #define jarak(E) E->jarak
 using namespace std;
+
 typedef struct elmGedung *adrGedung;
 typedef struct elmJalan *adrJalan;
 struct elmGedung {
@@ -29,12 +31,13 @@ struct graph {
 void initGraph(graph &G);
 adrGedung alokasiGedung(string gedung);
 void addGedung(graph &G, string gedung);
+adrGedung findGedung(graph G, string gedung);
 adrJalan alokasiJalan(string destGedung, int jarak);
 void addJalan(graph &G, string fromGedung, string toGedung, int jarak);
-void lihatRute(graph G);
-adrGedung findGedung(graph G, string gedung);
+adrJalan findJalan(adrGedung V, string toGedung);
+void showRute(graph G);
 void findTetangga(graph G, string gedung);
-... ruteTerdekat(...);
+// ... ruteTerdekat(...);
 void delGedung(graph &G, string gedung);
 void delJalan(graph &G, string fromGedung, string toGedung);
 
