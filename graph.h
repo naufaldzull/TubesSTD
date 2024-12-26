@@ -38,7 +38,7 @@ void addJalan(graph &G, string fromGedung, string toGedung, int jarak);
 adrJalan findJalan(adrGedung V, string toGedung);
 void showJalan(graph G);
 void findTetangga(graph G, string gedung);
-// ... ruteTerdekat(...);
+// ... ruteTerpendek(...);
 void delGedung(graph &G, string gedung);
 void delJalan(graph &G, string fromGedung, string toGedung);
 
