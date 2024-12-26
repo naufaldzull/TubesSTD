@@ -16,12 +16,8 @@ adrGedung alokasiGedung(string gedung) {
     return V;
 }
 
-// Menambahkan gedung ke graph
+// Menambahkan gedung
 void addGedung(graph &G, string gedung) {
-    if (findGedung(G, gedung) != NULL) {
-        cout << "Gedung " << gedung << " sudah ada.\n";
-        return;
-    }
     adrGedung V = alokasiGedung(gedung);
     if (firstVertex(G) == NULL) {
         firstVertex(G) = V;
@@ -32,10 +28,9 @@ void addGedung(graph &G, string gedung) {
         }
         nextVertex(temp) = V;
     }
-    cout << "Gedung " << gedung << " berhasil ditambahkan.\n";
 }
 
-// Mencari gedung di graph
+// Mencari gedung
 adrGedung findGedung(graph G, string gedung) {
     adrGedung V = firstVertex(G);
     while (V != NULL) {
@@ -45,6 +40,22 @@ adrGedung findGedung(graph G, string gedung) {
         V = nextVertex(V);
     }
     return NULL;
+}
+
+// Menampilkan gedung
+void showGedung(graph G) {
+    adrGedung V = firstVertex(G);
+    cout << "Daftar Gedung:\n";
+    if (V == NULL) {
+        cout << "Tidak ada gedung dalam graf.\n";
+    } else {
+        int num = 1;
+        while (V != NULL) {
+            cout << num << ". " << gedung(V) << "\n";
+            V = nextVertex(V);
+            num++;
+        }
+    }
 }
 
 // Alokasi memori untuk jalan
@@ -59,16 +70,7 @@ adrJalan alokasiJalan(string destGedung, int jarak) {
 // Menambahkan jalan antar gedung
 void addJalan(graph &G, string fromGedung, string toGedung, int jarak) {
     adrGedung V = findGedung(G, fromGedung);
-    if (V == NULL) {
-        cout << "Gedung " << fromGedung << " tidak ditemukan.\n";
-        return;
-    }
-    adrJalan E = findJalan(V, toGedung);
-    if (E != NULL) {
-        cout << "Jalan " << fromGedung << " -> " << toGedung << " sudah ada.\n";
-        return;
-    }
-    E = alokasiJalan(toGedung, jarak);
+    adrJalan E = alokasiJalan(toGedung, jarak);
     if (firstEdge(V) == NULL) {
         firstEdge(V) = E;
     } else {
@@ -78,12 +80,10 @@ void addJalan(graph &G, string fromGedung, string toGedung, int jarak) {
         }
         nextEdge(temp) = E;
     }
-    cout << "Jalan " << fromGedung << " -> " << toGedung
-         << " : " << jarak << "m berhasil ditambahkan.\n";
 }
 
 
-// Mencari jalan yang menghubungkan dua gedung
+// Mencari jalan antar gedung
 adrJalan findJalan(adrGedung V, string toGedung) {
     adrJalan E = firstEdge(V);
     while (E != NULL) {
@@ -95,33 +95,45 @@ adrJalan findJalan(adrGedung V, string toGedung) {
     return NULL;
 }
 
-// Melihat rute
-void showRute(graph G) {
+// Menampilkan jalan
+void showJalan(graph G) {
     adrGedung V = firstVertex(G);
-    while (V != NULL) {
-        adrJalan E = firstEdge(V);
-        while (E != NULL) {
-            cout << gedung(V) << " -> " << destGedung(E) << " : " << jarak(E) << "m\n";
-            E = nextEdge(E);
+    cout << "Daftar Jalan:\n";
+    if (V == NULL) {
+        cout << "Tidak ada jalan dalam graf.\n";
+    } else {
+        int num = 1;
+        while (V != NULL) {
+            adrJalan E = firstEdge(V);
+            while (E != NULL) {
+                cout << num << ". " << gedung(V) << " -> " << destGedung(E)
+                     << " : " << jarak(E) << "m\n";
+                E = nextEdge(E);
+                num++;
+            }
+            V = nextVertex(V);
         }
-        V = nextVertex(V);
     }
 }
 
-// Menemukan tetangga dari suatu gedung
+
+// Melihat tetangga dari suatu gedung
 void findTetangga(graph G, string gedung) {
     adrGedung V = findGedung(G, gedung);
-    if (V != NULL) {
-        adrJalan E = firstEdge(V);
-        while (E != nullptr) {
-            cout << destGedung(E) << " : " << jarak(E) << "m\n";
-            E = nextEdge(E);
-        }
-    } else {
+    int num = 1;
+    if (V == NULL) {
         cout << "Gedung " << gedung << " tidak ditemukan.\n";
+    } else {
+        adrJalan E = firstEdge(V);
+        while (E != NULL) {
+            cout << num << ". " << destGedung(E) << " : " << jarak(E) << "m\n";
+            E = nextEdge(E);
+            num++;
+        }
     }
 }
 
+// Meghapus gedung dan semua rutenya
 void delGedung(graph &G, string gedung) {
     // Cari gedung yang akan dihapus
     adrGedung prev = NULL;
@@ -131,7 +143,9 @@ void delGedung(graph &G, string gedung) {
         curr = nextVertex(curr);
     }
 
-    if (curr != NULL) {
+    if (curr == NULL) {
+        cout << "Gedung " << gedung << " tidak ditemukan.\n";
+    } else {
         // Hapus semua jalan yang berasal dari gedung ini
         adrJalan tempEdge;
         while (firstEdge(curr) != NULL) {
@@ -168,34 +182,39 @@ void delGedung(graph &G, string gedung) {
         }
         delete curr;
         cout << "Gedung " << gedung << " dan semua rutenya telah dihapus.\n";
-    } else {
-        cout << "Gedung " << gedung << " tidak ditemukan.\n";
     }
 }
 
+// Menghapus jalan antar gedung
 void delJalan(graph &G, string fromGedung, string toGedung) {
-    // Cari gedung fromGedung
+    // Mencari fromGedung
     adrGedung V = findGedung(G, fromGedung);
-    if (V != NULL) {
-        // Cari jalan yang menuju ke toGedung dalam daftar jalan dari fromGedung
-        adrJalan prev = NULL, curr = firstEdge(V);
-        while (curr != NULL && destGedung(curr) != toGedung) {
-            prev = curr;
-            curr = nextEdge(curr);
-        }
-        if (curr != NULL) {
-            // Hapus jalan yang ditemukan
-            if (prev == NULL) {
-                firstEdge(V) = nextEdge(curr); // Jika jalan pertama dalam daftar
-            } else {
-                nextEdge(prev) = nextEdge(curr); // Jika jalan di tengah atau akhir
-            }
-            delete curr;
-            cout << "Rute dari " << fromGedung << " -> " << toGedung << " telah dihapus.\n";
-        } else {
-            cout << "Rute dari " << fromGedung << " -> " << toGedung << " tidak ditemukan.\n";
-        }
+    if (V == NULL) {
+        cout << "Gedung " << fromGedung << " tidak ditemukan dalam graf.\n";
     } else {
-        cout << "Gedung " << fromGedung << " tidak ditemukan.\n";
+        // Mencari toGedung
+        adrGedung W = findGedung(G, toGedung);
+        if (W == NULL) {
+            cout << "Gedung " << toGedung << " tidak ditemukan dalam graf.\n";
+        } else {
+            // Menari jalan menuju toGedung dalam daftar jalan fromGedung
+            adrJalan prev = NULL, curr = firstEdge(V);
+            while (curr != NULL && destGedung(curr) != toGedung) {
+                prev = curr;
+                curr = nextEdge(curr);
+            }
+            if (curr == NULL) {
+                cout << "Rute dari " << fromGedung << " -> " << toGedung << " tidak ditemukan.\n";
+            } else {
+                // Hapus jalan yang ditemukan
+                if (prev == NULL) {
+                    firstEdge(V) = nextEdge(curr); // Jika jalan pertama dalam daftar
+                } else {
+                    nextEdge(prev) = nextEdge(curr); // Jika jalan di tengah atau akhir
+                }
+                delete curr;
+                cout << "Rute dari " << fromGedung << " -> " << toGedung << " telah dihapus.\n";
+            }
+        }
     }
 }
