@@ -18,6 +18,11 @@ adrGedung alokasiGedung(string gedung) {
 
 // Menambahkan gedung
 void addGedung(graph &G, string gedung) {
+    if (findGedung(G, gedung) != NULL) {
+        cout << "Error: Gedung " << gedung << " sudah ada dalam graf.\n";
+        return;
+    }
+
     adrGedung V = alokasiGedung(gedung);
     if (firstVertex(G) == NULL) {
         firstVertex(G) = V;
@@ -70,6 +75,7 @@ adrJalan alokasiJalan(string destGedung, int jarak) {
 // Menambahkan jalan antar gedung
 void addJalan(graph &G, string fromGedung, string toGedung, int jarak) {
     adrGedung V = findGedung(G, fromGedung);
+
     adrJalan E = alokasiJalan(toGedung, jarak);
     if (firstEdge(V) == NULL) {
         firstEdge(V) = E;
@@ -125,6 +131,9 @@ void findTetangga(graph G, string gedung) {
         cout << "Gedung " << gedung << " tidak ditemukan.\n";
     } else {
         adrJalan E = firstEdge(V);
+        if (E == NULL) {
+            cout << "Gedung " << gedung << " tidak memiliki tetangga.\n";
+        }
         while (E != NULL) {
             cout << num << ". " << destGedung(E) << " : " << jarak(E) << "m\n";
             E = nextEdge(E);
@@ -187,6 +196,11 @@ void delGedung(graph &G, string gedung) {
 
 // Menghapus jalan antar gedung
 void delJalan(graph &G, string fromGedung, string toGedung) {
+    if (fromGedung == toGedung) {
+        cout << "Error: Gedung asal dan tujuan tidak boleh sama.\n";
+        return;
+    }
+
     // Mencari fromGedung
     adrGedung V = findGedung(G, fromGedung);
     if (V == NULL) {
@@ -274,6 +288,10 @@ void ruteTerpendek(graph G, string fromGedung, string toGedung) {
     map<adrGedung, adrGedung> prev;
     PQ pq;
     initPQ(pq);
+
+    if (fromGedung == toGedung) {
+        cout << "Error: Gedung asal dan tujuan tidak boleh sama.\n";
+    }
 
     adrGedung V1 = findGedung(G, fromGedung);
     adrGedung V2 = findGedung(G, toGedung);
