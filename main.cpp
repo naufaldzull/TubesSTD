@@ -50,7 +50,7 @@ int main()
         cout << "3. Tampil Gedung\n";
         cout << "4. Tampil Jalan\n";
         cout << "5. Lihat Tetangga\n";
-        cout << "6. Cari Rute Terdekat\n";
+        cout << "6. Cari Rute Terpendek\n";
         cout << "7. Hapus Gedung\n";
         cout << "8. Hapus Jalan\n";
         cout << "9. Keluar\n";
