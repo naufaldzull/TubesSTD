@@ -218,3 +218,102 @@ void delJalan(graph &G, string fromGedung, string toGedung) {
         }
     }
 }
+
+void initPQ(PQ &pq) {
+    pq.head = nullptr;
+}
+
+void pushPQ(PQ &pq, adrGedung gedung, int priority) {
+    adrNode newNode = new node{gedung, priority, NULL};
+    if (!pq.head || priority(pq.head) > priority) {
+        next(newNode) = pq.head;
+        pq.head = newNode;
+    } else {
+        adrNode curr = pq.head;
+        while (next(curr) && priority(next(curr)) <= priority) {
+            curr = next(curr);
+        }
+        next(newNode) = next(curr);
+        next(curr) = newNode;
+    }
+}
+
+adrGedung popPQ(PQ &pq) {
+    if (!pq.head) return nullptr;
+
+    adrNode temp = pq.head;
+    pq.head = next(pq.head);
+
+    adrGedung topGedung = temp->gedung;
+    delete temp;
+    return topGedung;
+}
+
+bool isEmptyPQ(PQ pq) {
+    return pq.head == nullptr;
+}
+
+// Mencetak rute dari asal ke tujuan
+void cetakRute(adrGedung gedung, map<adrGedung, adrGedung> &prev) {
+    if (gedung == nullptr) {
+        return; // Basis rekursi: hentikan jika gedung kosong
+    }
+    cetakRute(prev[gedung], prev); // Cetak gedung sebelumnya terlebih dahulu
+    if (prev[gedung] != nullptr) {
+        cout << " -> ";
+    }
+    cout << gedung->gedung; // Cetak gedung saat ini
+}
+
+void ruteTerpendek(graph G, string fromGedung, string toGedung) {
+    map<adrGedung, int> dist;
+    map<adrGedung, adrGedung> prev;
+    PQ pq;
+    initPQ(pq);
+
+    adrGedung V1 = findGedung(G, fromGedung);
+    adrGedung V2 = findGedung(G, toGedung);
+
+    if (!V1 || !V2) {
+        if (!V1) cout << "Gedung " << fromGedung << " tidak ditemukan.\n";
+        if (!V2) cout << "Gedung " << toGedung << " tidak ditemukan.\n";
+        return;
+    }
+
+    // Inisialisasi jarak dan prev
+    adrGedung currGedung = firstVertex(G);
+    while (currGedung != nullptr) {
+        dist[currGedung] = INT_MAX;  // Set jarak awal ke infinity
+        prev[currGedung] = nullptr; // Tidak ada gedung sebelumnya
+        currGedung = nextVertex(currGedung);
+    }
+
+    dist[V1] = 0; // Jarak ke gedung awal adalah 0
+    pushPQ(pq, V1, 0);
+
+    // Algoritma Dijkstra
+    while (!isEmptyPQ(pq)) {
+        adrGedung currGedung = popPQ(pq);
+        adrJalan jalan = firstEdge(currGedung);
+        while (jalan != nullptr) {
+            adrGedung tetangga = findGedung(G, destGedung(jalan));
+            int newDist = dist[currGedung] + jarak(jalan);
+
+            if (newDist < dist[tetangga]) {
+                dist[tetangga] = newDist;      // Update jarak
+                prev[tetangga] = currGedung;  // Update gedung sebelumnya
+                pushPQ(pq, tetangga, newDist); // Masukkan tetangga ke PQ
+            }
+            jalan = nextEdge(jalan);
+        }
+    }
+
+    // Cetak hasil
+    if (dist[V2] == INT_MAX) {
+        cout << "Tidak ada rute dari " << fromGedung << " ke " << toGedung << ".\n";
+    } else {
+        cout << "Rute terpendek dari " << fromGedung << " ke " << toGedung << ":\n";
+        cetakRute(V2, prev); // Cetak rute dari asal ke tujuan
+        cout << "\nJarak total: " << dist[V2] << "m\n";
+    }
+}
