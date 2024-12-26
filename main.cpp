@@ -96,6 +96,8 @@ int main()
                         cout << "Gedung " << from << " tidak ditemukan.\n";
                     } else if (V_to == NULL) {
                         cout << "Gedung " << to << " tidak ditemukan.\n";
+                    } else if (from == to) {
+                        cout << "Gedung asal dan tujuan tidak boleh sama.\n";
                     } else {
                         if (findJalan(V_from, to) == NULL) {
                             addJalan(G, from, to, distance);
