@@ -219,10 +219,12 @@ void delJalan(graph &G, string fromGedung, string toGedung) {
     }
 }
 
+// Inisialisasi priority queue
 void initPQ(PQ &pq) {
-    pq.head = nullptr;
+    pq.head = NULL;
 }
 
+// Menambahkan elemen baru ke dalam priority queue
 void pushPQ(PQ &pq, adrGedung gedung, int priority) {
     adrNode newNode = new node{gedung, priority, NULL};
     if (!pq.head || priority(pq.head) > priority) {
@@ -238,8 +240,9 @@ void pushPQ(PQ &pq, adrGedung gedung, int priority) {
     }
 }
 
+// Menghapus elemen dengan prioritas tertinggi
 adrGedung popPQ(PQ &pq) {
-    if (!pq.head) return nullptr;
+    if (!pq.head) return NULL;
 
     adrNode temp = pq.head;
     pq.head = next(pq.head);
@@ -250,21 +253,22 @@ adrGedung popPQ(PQ &pq) {
 }
 
 bool isEmptyPQ(PQ pq) {
-    return pq.head == nullptr;
+    return pq.head == NULL;
 }
 
 // Mencetak rute dari asal ke tujuan
 void cetakRute(adrGedung gedung, map<adrGedung, adrGedung> &prev) {
-    if (gedung == nullptr) {
+    if (gedung == NULL) {
         return; // Basis rekursi: hentikan jika gedung kosong
     }
-    cetakRute(prev[gedung], prev); // Cetak gedung sebelumnya terlebih dahulu
-    if (prev[gedung] != nullptr) {
+    cetakRute(prev[gedung], prev); // Menetak gedung sebelumnya terlebih dahulu
+    if (prev[gedung] != NULL) {
         cout << " -> ";
     }
-    cout << gedung->gedung; // Cetak gedung saat ini
+    cout << gedung->gedung; // Menetak gedung saat ini
 }
 
+// Mencari ruteTerpendek antarGedung
 void ruteTerpendek(graph G, string fromGedung, string toGedung) {
     map<adrGedung, int> dist;
     map<adrGedung, adrGedung> prev;
@@ -282,9 +286,9 @@ void ruteTerpendek(graph G, string fromGedung, string toGedung) {
 
     // Inisialisasi jarak dan prev
     adrGedung currGedung = firstVertex(G);
-    while (currGedung != nullptr) {
-        dist[currGedung] = INT_MAX;  // Set jarak awal ke infinity
-        prev[currGedung] = nullptr; // Tidak ada gedung sebelumnya
+    while (currGedung != NULL) {
+        dist[currGedung] = INT_MAX; // Set jarak awal ke infinity
+        prev[currGedung] = NULL; // Tidak ada gedung sebelumnya
         currGedung = nextVertex(currGedung);
     }
 
@@ -295,25 +299,25 @@ void ruteTerpendek(graph G, string fromGedung, string toGedung) {
     while (!isEmptyPQ(pq)) {
         adrGedung currGedung = popPQ(pq);
         adrJalan jalan = firstEdge(currGedung);
-        while (jalan != nullptr) {
+        while (jalan != NULL) {
             adrGedung tetangga = findGedung(G, destGedung(jalan));
             int newDist = dist[currGedung] + jarak(jalan);
 
             if (newDist < dist[tetangga]) {
                 dist[tetangga] = newDist;      // Update jarak
-                prev[tetangga] = currGedung;  // Update gedung sebelumnya
+                prev[tetangga] = currGedung;   // Update gedung sebelumnya
                 pushPQ(pq, tetangga, newDist); // Masukkan tetangga ke PQ
             }
             jalan = nextEdge(jalan);
         }
     }
 
-    // Cetak hasil
+    // Mencetak rute
     if (dist[V2] == INT_MAX) {
         cout << "Tidak ada rute dari " << fromGedung << " ke " << toGedung << ".\n";
     } else {
         cout << "Rute terpendek dari " << fromGedung << " ke " << toGedung << ":\n";
-        cetakRute(V2, prev); // Cetak rute dari asal ke tujuan
+        cetakRute(V2, prev);
         cout << "\nJarak total: " << dist[V2] << "m\n";
     }
 }
