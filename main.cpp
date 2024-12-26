@@ -125,7 +125,7 @@ int main()
                 cin >> from;
                 cout << "Input gedung tujuan: ";
                 cin >> to;
-                // Implementasi cari rute terdekat bisa menggunakan algoritma graf seperti Dijkstra
+                ruteTerpendek(G, from, to);
                 break;
             }
             case 7: {
