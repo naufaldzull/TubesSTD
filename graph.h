@@ -62,5 +62,4 @@ bool isEmptyPQ(PQ pq);
 void cetakRute(adrGedung gedung, map<adrGedung, adrGedung> &prev);
 void ruteTerpendek(graph G, string fromGedung, string toGedung);
 
-
 #endif // GRAPH_H_INCLUDED
