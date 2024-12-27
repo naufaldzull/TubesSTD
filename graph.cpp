@@ -271,7 +271,7 @@ void cetakRute(adrGedung gedung, map<adrGedung, adrGedung> &prev) {
     if (prev[gedung] != NULL) {
         cout << " -> ";
     }
-    cout << gedung->gedung; // Menetak gedung saat ini
+    cout << gedung(gedung); // Menetak gedung saat ini
 }
 
 // Mencari ruteTerpendek antarGedung
